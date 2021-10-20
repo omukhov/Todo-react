@@ -2,36 +2,10 @@ import React, {Component} from 'react';
 import "./postListItem.css";
 
 export default class PostListItem extends Component {
-    // Создание конструктора с получение пропсов из данных в app и создание состояния лайка и важного поста
-    constructor(props) {
-        super(props);
-        this.state = {
-            important : false,
-            like: false
-        };
-        // Привязка к определенному объекту обработчиков
-        this.onImportant = this.onImportant.bind(this);
-        this.onLike = this.onLike.bind(this);
-    }
-
-    // Изменяет состояние важного поста
-    onImportant() {
-        this.setState(({important}) => ({
-            important: !important
-        }));
-    }
-
-    // Изменяет состояние лайка
-    onLike() {
-        this.setState(({like}) => ({
-            like: !like
-        }));
-    }
-
+    
     render() {
         // Получение свойств из пропсов и состояния конструктора
-        const {label} = this.props;
-        const {important, like} = this.state;
+        const {label, onDelete, onToggleImportant, onToggleLiked, important, like} = this.props;
         let classNames = 'app-list-item d-flex justify-content-between';
 
         if (important) {
@@ -45,7 +19,7 @@ export default class PostListItem extends Component {
         return (
             <div className={classNames}>
                 <span
-                onClick={this.onLike}
+                onClick={onToggleLiked}
                 className="app-list-item-label"
                 >
                     {label}
@@ -54,11 +28,15 @@ export default class PostListItem extends Component {
                     <button 
                     type="button" 
                     className="btn-star btn-sm"
-                    onClick={this.onImportant}
+                    onClick={onToggleImportant}
                     >
                         <i className="fa fa-star"></i>
                     </button>
-                    <button type="button" className="btn-trash btn-sm">
+                    <button 
+                    type="button" 
+                    className="btn-trash btn-sm"
+                    onClick={onDelete}
+                    >
                         <i className="fa fa-trash-o"></i>
                     </button>
                     <i className="fa fa-heart"></i>
